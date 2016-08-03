@@ -10,35 +10,35 @@ const findWaterLevel = (height, buildings) => {
 
 const floodedLandscape = (heights) => {
     const landscape = heights.reduce((landscape, height, position) => {
-            const nextBuildings = heights.slice(position + 1);
-            const nextBuilding = heights[position + 1];
-            const ponds = landscape.ponds;
-            const pond = landscape.active;
+        const nextBuildings = heights.slice(position + 1);
+        const nextBuilding = heights[position + 1];
+        const ponds = landscape.ponds;
+        const pond = landscape.active;
 
-            if (!pond.waterLevel && nextBuilding < height) {
-                pond.waterLevel = findWaterLevel(height, nextBuildings);
-            }
+        if (!pond.waterLevel && nextBuilding < height) {
+            pond.waterLevel = findWaterLevel(height, nextBuildings);
+        }
 
-            if (nextBuilding < pond.waterLevel) {
-                pond.buildings.push(nextBuilding);
-            }
+        if (nextBuilding < pond.waterLevel) {
+            pond.buildings.push(nextBuilding);
+        }
 
-            if (pond.waterLevel && nextBuilding >= pond.waterLevel) {
-                ponds.push(Object.assign({}, pond));
+        if (pond.waterLevel && nextBuilding >= pond.waterLevel) {
+            ponds.push(Object.assign({}, pond));
 
-                pond.waterLevel = 0;
-                pond.buildings = [];
-            }
+            pond.waterLevel = 0;
+            pond.buildings = [];
+        }
 
-            return landscape;
+        return landscape;
 
-        }, {
-            active: {
-                buildings: [],
-                waterLevel: 0
-            },
-            ponds: []
-        });
+    }, {
+        active: {
+            buildings: [],
+            waterLevel: 0
+        },
+        ponds: []
+    });
 
     return landscape.ponds.reduce((totalWater, pond) => {
         return totalWater += pond.buildings.reduce((water, height) => {
