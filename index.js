@@ -1,4 +1,4 @@
-const findNextWaterLevel = (height, buildings) => {
+const findWaterLevel = (height, buildings) => {
     const allTallest = buildings.filter((building, index) => {
         return building > buildings[index - 1];
     });
@@ -9,15 +9,14 @@ const findNextWaterLevel = (height, buildings) => {
 };
 
 const floodedLandscape = (heights) => {
-    const landscape = heights
-        .reduce((landscape, height, position) => {
+    const landscape = heights.reduce((landscape, height, position) => {
             const nextBuildings = heights.slice(position + 1);
             const nextBuilding = heights[position + 1];
             const ponds = landscape.ponds;
             const pond = landscape.active;
 
             if (!pond.waterLevel && nextBuilding < height) {
-                pond.waterLevel = findNextWaterLevel(height, nextBuildings);
+                pond.waterLevel = findWaterLevel(height, nextBuildings);
             }
 
             if (nextBuilding < pond.waterLevel) {
